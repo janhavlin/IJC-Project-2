@@ -43,9 +43,9 @@ Termín odevzdání: 24.4.2018                       (Max. 15 bodů)
     // Program počítá četnost slov ve vstupním textu,
     // slovo je cokoli oddělené "bílým znakem" === isspace
 
-    #include <string>
-    #include <iostream>
-    #include <unordered_map>
+        #include <string>
+        #include <iostream>
+        #include <unordered_map>
 
         int main() {
           using namespace std;
@@ -58,7 +58,7 @@ Termín odevzdání: 24.4.2018                       (Max. 15 bodů)
           for (auto &mi: m)   // pro všechny prvky kontejneru m
               cout << mi.first << "\t" << mi.second << "\n";
           // tisk     slovo (klíč)        počet (data)
-       }
+        }
 
    Výstupy programů musí být pro stejný vstup stejné (kromě pořadí a příliš dlouhých slov).
    Výsledný program se musí jmenovat "wordcount.c".
