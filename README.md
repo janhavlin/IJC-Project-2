@@ -1,4 +1,4 @@
-zyk C                       DU2                      20.3.2018
+Jazyk C                       DU2                      20.3.2018
 ----------------------------------------------------------------
 
                          Domácí úkol č.2
@@ -47,18 +47,18 @@ Termín odevzdání: 24.4.2018                       (Max. 15 bodů)
     #include <iostream>
     #include <unordered_map>
 
-    int main() {
-        using namespace std;
-        unordered_map<string,int> m;  // asociativní pole
-        string word;
+        int main() {
+          using namespace std;
+          unordered_map<string,int> m;  // asociativní pole
+          string word;
 
-        while (cin >> word) // čtení slova
-            m[word]++;      // počítání výskytů slova
+          while (cin >> word) // čtení slova
+              m[word]++;      // počítání výskytů slova
 
-        for (auto &mi: m)   // pro všechny prvky kontejneru m
-            cout << mi.first << "\t" << mi.second << "\n";
-        // tisk     slovo (klíč)        počet (data)
-    }
+          for (auto &mi: m)   // pro všechny prvky kontejneru m
+              cout << mi.first << "\t" << mi.second << "\n";
+          // tisk     slovo (klíč)        počet (data)
+       }
 
    Výstupy programů musí být pro stejný vstup stejné (kromě pořadí a příliš dlouhých slov).
    Výsledný program se musí jmenovat "wordcount.c".
@@ -84,13 +84,13 @@ Termín odevzdání: 24.4.2018                       (Max. 15 bodů)
     - Vhodná rozptylovací funkce pro řetězce je podle literatury
       (http://www.cse.yorku.ca/~oz/hash.html - varianta sdbm):
 
-        unsigned int htab_hash_function(const char *str) {
-          unsigned int h=0;     // 32bit
-          const unsigned char *p;
-          for(p=(const unsigned char*)str; *p!='\0'; p++)
-              h = 65599*h + *p;
-          return h;
-        }
+         unsigned int htab_hash_function(const char *str) {
+           unsigned int h=0;     // 32bit
+           const unsigned char *p;
+           for(p=(const unsigned char*)str; *p!='\0'; p++)
+               h = 65599*h + *p;
+           return h;
+           }
 
       její výsledek modulo arr_size určuje index do tabulky:
         index = (htab_hash_function("mystring") % arr_size);
@@ -99,18 +99,18 @@ Termín odevzdání: 24.4.2018                       (Max. 15 bodů)
     - Tabulka je (pro knihovnu privátní) struktura obsahující pole seznamů,
       jeho velikost a počet položek tabulky v následujícím pořadí:
 
-         +----------+
-         | size     | // aktuální počet záznamů [key,data,next]
-         +----------+
-         | arr_size | // velikost následujícího pole ukazatelů
-         +----------+
-         +---+
-         |ptr|-->[key,data,next]-->[key,data,next]-->[key,data,next]--|
-         +---+
-         |ptr|--|
-         +---+
-         |ptr|-->[key,data,next]-->[key,data,next]--|
-         +---+
+           +----------+
+           | size     | // aktuální počet záznamů [key,data,next]
+           +----------+
+           | arr_size | // velikost následujícího pole ukazatelů
+           +----------+
+           +---+
+           |ptr|-->[key,data,next]-->[key,data,next]-->[key,data,next]--|
+           +---+
+           |ptr|--|
+           +---+
+           |ptr|-->[key,data,next]-->[key,data,next]--|
+           +---+
 
       Položka arr_size je velikost následujícího pole ukazatelů (použijte
       C99: "flexible array member"). Paměť pro strukturu se dynamicky alokuje
