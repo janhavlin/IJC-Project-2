@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "htab.h"
 
 #define MAX_LINE_LEN 1024
 
@@ -62,8 +63,10 @@ int main(int argc, char *argv[])
 	
 	char buffer[lines][MAX_LINE_LEN];
 	
-	int c, i;
-	for (i = 0;; i++)
+	int c;
+	int i = 0;
+	// for (i = 0;; i++)
+	while(42)
 	{
 		int j = 0;
 		while ((c = get_char(f)) != EOF && j < MAX_LINE_LEN - 1)
@@ -75,13 +78,24 @@ int main(int argc, char *argv[])
 			if(c == '\n')
 				break;
 		}
+		
 		if (c == EOF)
+		{
+			// Pokud je j 0, znamena to, ze posledni znak souboru je '\n'EOF, i se zvysi o 1, provede se dalsi iterace cyklu a dosteneme se do teto vetve
+			// Pokud soubor konci pouze EOF, iterator i ma hodnotu o 1 mensi, protoze mu posledni znak souboru '\n' nezvysi hodnotu,
+			// tudiz i zvysime tady, aby byly tyto 2 varianty synchronizovane
+			if (j != 0)
+				i++;
 			break;
+		}
+		
 		buffer[i%lines][j++] = '\0';
+		i++;
 	}
 	
-	// i = posledne zapsany radek
+	// i = prvni radek
 	// i - lines = prvni radek
+	// interval <i-lines, i) = vsechny radky na vypis
 	for (int k = i - lines; k < i; k++)
 	{
 		// Pokud bylo zadano mene radku, nez je v souboru, dostali bychom se do zaporu
