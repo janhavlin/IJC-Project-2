@@ -11,7 +11,7 @@
 typedef struct {
 	int size;
 	int arr_size;
-	struct htab_listitem *ptr[1];
+	struct htab_listitem *ptr[];
 } htab_t;
 
 struct htab_listitem {
@@ -20,7 +20,9 @@ struct htab_listitem {
 	struct htab_listitem *next;
 };
 
-        htab_t * htab_init(int size);	// konstruktor: vytvoření a inicializace tabulky
+unsigned int htab_hash_function(const char *str);
+
+        htab_t * htab_init(size_t size);	// konstruktor: vytvoření a inicializace tabulky
 
         htab_t * htab_move(size_t newsize,htab_t *t2); // move konstruktor: vytvoření a inicializace tabulky daty z tabulky t2, t2 nakonec zůstane prázdná a alokovaná (tuto funkci cvičně použijte v programu)
 
@@ -32,7 +34,7 @@ struct htab_listitem {
 
         struct htab_listitem * htab_find(htab_t *t,char *key);          // vyhledávání - viz dále
 
-        // htab_foreach(t,func)      // volání funkce func pro každý prvek
+        void htab_foreach(htab_t *t, void (* func)(const char *, struct htab_listitem *));      // volání funkce func pro každý prvek
 
         bool htab_remove(htab_t *t, char *key);      // vyhledání a zrušení zadané položky vrací b==false pokud neexistuje
 
