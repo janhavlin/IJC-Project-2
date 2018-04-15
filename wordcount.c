@@ -13,6 +13,7 @@ void print(const char *key, struct htab_listitem *item)
 
 void printTable(htab_t *table)
 {
+	puts("********* Vypis tabulky *********:");
 	struct htab_listitem *list = NULL;
 	for(unsigned int i = 0; i < table->arr_size; i++){
 		list = table->ptr[i];
@@ -23,7 +24,7 @@ void printTable(htab_t *table)
 			list = list->next;
 		}
 		
-		printf("-|\n");		
+		printf("-|\n\n");		
 	}
 }
 int main()
@@ -31,7 +32,7 @@ int main()
 	// char word[KEY_MAX_LEN];
 	int c;
 	htab_t *table = htab_init(10);
-	printf("SIZE: %d ARR SIZE: %d\n", table->size, table->arr_size);
+	printf("SIZE: %u ARR SIZE: %u\n", table->size, table->arr_size);
 	// struct htab_listitem *head = NULL;
 	// int size = 0;
 	
@@ -54,7 +55,7 @@ int main()
 		
 		tmp_word[i] = '\0';
 		// printf("'%s' Volani lookup --\n", tmp_word);
-		struct htab_listitem *tmp_item = htab_lookup_add(table, tmp_word);
+		/*struct htab_listitem *tmp_item =*/ htab_lookup_add(table, tmp_word);
 		// printf("data: %d\n", tmp_item->data);
 		
 		if (c == EOF) break;
@@ -82,13 +83,15 @@ int main()
 			// tmp = tmp->next;
 		// }
 	// }
-	htab_t *table2 = htab_move(5, table);
-	htab_foreach(table2, &print);
 	// printTable(table);
+	// htab_t *table2 = htab_move(100, table);
+	// printTable(table2);
+	htab_foreach(table, &print);
 	
 
 	// puts("*** VOLANI CLEAR ***");
 	// htab_clear(table);
 	htab_free(table);
+	// htab_free(table2);
 	return 0;
 }

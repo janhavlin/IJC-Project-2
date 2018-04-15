@@ -1,3 +1,5 @@
+// ZASTARALA VERZE //
+
 #include <stdio.h>
 #include "htab.h"
 
@@ -28,19 +30,20 @@ htab_t * htab_move(size_t newsize, htab_t *t2)
 {
 	htab_t *t = htab_init(newsize);
 	
-	for (int i = 0; i < t2->arr_size; i++)
+	for (unsigned i = 0; i < t2->arr_size; i++)
 	{
 		struct htab_listitem *tmp = t2->ptr[i];
 		while(tmp != NULL)
 		{
-			printf("bla %d\n", i);
+			// printf("bla %d\n", i);
 			htab_lookup_add(t, tmp->key);
-			
+
 			htab_find(t, tmp->key)->data = htab_find(t2, tmp->key)->data;
 			
 			tmp = tmp->next;
 		}
 	}
+	htab_clear(t2);
 	return t;
 }
 
@@ -124,7 +127,7 @@ struct htab_listitem * htab_find(htab_t *t,char *key)
 
 void htab_foreach(htab_t *t, void (* func)(const char *, struct htab_listitem *))
 {
-	for (int i = 0; i < t->arr_size; i++)
+	for (unsigned i = 0; i < t->arr_size; i++)
 	{
 		struct htab_listitem *tmp = t->ptr[i];
 		while(tmp != NULL)
@@ -134,7 +137,6 @@ void htab_foreach(htab_t *t, void (* func)(const char *, struct htab_listitem *)
 			tmp = tmp->next;
 		}
 	}
-
 }
 
 bool htab_remove(htab_t *t, char *key)
@@ -174,9 +176,9 @@ bool htab_remove(htab_t *t, char *key)
 
 void htab_clear(htab_t *t)
 {
-	for (int i = 0; i < htab_bucket_count(t); i++)
+	for (unsigned i = 0; i < htab_bucket_count(t); i++)
 	{
-		printf("CLEAR ITERACE %d\n", i);
+		// printf("CLEAR ITERACE %d\n", i);
 		while(t->ptr[i] != NULL)
 		{
 		struct htab_listitem *tmp = t->ptr[i];
