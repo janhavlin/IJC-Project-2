@@ -20,7 +20,7 @@ struct htab_listitem *htab_lookup_add(htab_t *t, const char *key)
 		else
 			break;
 	}
-	
+
 	struct htab_listitem *new = (struct htab_listitem *) malloc(sizeof(struct htab_listitem));
 	if (new == NULL)
 	{

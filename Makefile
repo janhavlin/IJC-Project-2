@@ -33,7 +33,7 @@ libtab.so:
 	$(CC) $(CFLAGS) -shared -fPIC -o libhtab.so $(OBJLIB)
 
 # Objektove soubory
-wordcount.o: htab.o wordcount.c
+wordcount.o: wordcount.c
 	$(CC) $(CFLAGS) -fPIC -c wordcount.c	
 
 htab_hash_function.o: htab_hash_function.c
@@ -51,7 +51,7 @@ htab_size.o: htab_size.c
 htab_bucket_count.o: htab_bucket_count.c
 	$(CC) $(CFLAGS) -fPIC -c htab_bucket_count.c
 	
-htab_lookup_add.o: htab_lookup_add.c htab_hash_function.o
+htab_lookup_add.o: htab_lookup_add.c htab_hash_function.o htab_find.o
 	$(CC) $(CFLAGS) -fPIC -c htab_lookup_add.c
 	
 htab_find.o: htab_find.c htab_hash_function.o

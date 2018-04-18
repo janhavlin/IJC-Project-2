@@ -32,7 +32,7 @@ size_t htab_bucket_count(htab_t *t);   // vrátí počet prvků pole (.arr_size)
 
 struct htab_listitem * htab_lookup_add(htab_t *t,const char *key);    // vyhledávání - viz dále
 
-struct htab_listitem * htab_find(htab_t *t,char *key);          // vyhledávání - viz dále
+struct htab_listitem * htab_find(htab_t *t, const char *key);          // vyhledávání - viz dále
 
 void htab_foreach(htab_t *t, void (* func)(const char *, struct htab_listitem *));      // volání funkce func pro každý prvek
 

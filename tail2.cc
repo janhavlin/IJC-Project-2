@@ -26,10 +26,15 @@ int main(int argc, char **argv)
 		}
 		
 		file.open (argv[argc - 1]);
+		if (!file.is_open())
+		{
+			fprintf(stderr, "Chyba pri nacitani souboru\n");
+			return 1;
+		}	
 	}
 	
-	if (file)
-		std::cout << "BLABLA";
+	// if (file)
+		// std::cout << "BLABLA";
 	// tail -n 20 <soubor
 	else if (argc == 3 && !strcmp(argv[1], "-n"))
 	{
@@ -60,24 +65,32 @@ int main(int argc, char **argv)
 	{
 		if (file.is_open())
 		{
-		std::cout << i++ << '\n';
+		// std::cout << i++ << '\n';
 			std::getline(file, line);
 		}
 		else
 		{
 			std::getline(std::cin, line);
 		}
+		
+		// Ve stringu je na poslednim radku pouze EOF, tento radek uz nebudeme pushovat
+		if ((std::cin.eof() || file.eof()) && line.length() == 0)
+			break;
+		
 		buffer.push(line);
 		
 		// Smazeme nejstarsi string ve fronte, pokud jich je vic nez se ma vypsat radku
 		if (buffer.size() > lines)
 			buffer.pop();
+		
+		if ((std::cin.eof() || file.eof()) && line.length() > 0)
+			break;
 	}
-	while (!std::cin.eof() && !file.eof());
+	while (42);
 	
 	while (buffer.size() > 0)
 	{
-		std::cout << buffer.front();// << '\n';
+		std::cout << buffer.front() << '\n';
 		buffer.pop();
 	}
 

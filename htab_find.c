@@ -1,6 +1,6 @@
 #include "htab.h"
 
-struct htab_listitem * htab_find(htab_t *t,char *key)
+struct htab_listitem * htab_find(htab_t *t, const char *key)
 {
 	unsigned hash = htab_hash_function(key) % t->arr_size;
 	
