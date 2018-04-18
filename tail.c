@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "htab.h"
+// #include "htab.h"
 
 #define MAX_LINE_LEN 1024
+// #define INT_LIMIT 65524
 
 int get_char(FILE *f)
 {
@@ -18,8 +19,7 @@ int get_char(FILE *f)
 
 int main(int argc, char *argv[])
 {
-	// printf("Hello, %d World!\n", argc);
-	int lines = 10;
+	long lines = 10;
 	FILE *f = NULL;
 	
 	// tail soubor || tail -n 20 soubor
@@ -44,8 +44,14 @@ int main(int argc, char *argv[])
 	// tail -n 20 <soubor
 	else if (argc == 3 && !strcmp(argv[1], "-n"))
 	{
-		lines = atoi(argv[2]);
+		lines = strtol(argv[2], NULL, 0);
+		// if (lines > INT_LIMIT)
+		// {
+			// lines = INT_LIMIT;
+			// printf("BLABLA");
+		// }
 	}
+	
 	
 	// tail <soubor
 	else if (argc != 1)
@@ -54,7 +60,7 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 	
-	// printf("Lines: %d\n", lines);
+	// printf("Lines: %ld\n", lines);
 	if (lines < 0)
 	{
 		fprintf(stderr, "Chyba: Zadany pocet radku nesmi byt zaporny\n");
@@ -64,19 +70,28 @@ int main(int argc, char *argv[])
 	char buffer[lines][MAX_LINE_LEN];
 	
 	int c;
-	int i = 0;
-	// for (i = 0;; i++)
+	long i = 0;
+	short warnings = 1;
 	while(42)
 	{
 		int j = 0;
-		while ((c = get_char(f)) != EOF && j < MAX_LINE_LEN - 1)
+		while ((c = get_char(f)) != EOF && j < MAX_LINE_LEN - 2)
 		{
 			// Pomoci modula prepisujeme radek
 			buffer[i%lines][j++] = c;
-			
+			// printf("%d ",j);
 			// Znak konce radku zapiseme a vyskocime z cyklu
 			if(c == '\n')
 				break;
+		}
+		
+		// Rezervace mista pro '\n' a pro '\0'
+		if (j == MAX_LINE_LEN - 2)
+		{
+			if (warnings--)
+				fprintf(stderr, "Varovani: zkracen prilis dlouhy radek\n");
+			while((c = fgetc(f)) != EOF && c != '\n');
+			buffer[i%lines][j++] = '\n';
 		}
 		
 		if (c == EOF)
@@ -96,7 +111,7 @@ int main(int argc, char *argv[])
 	// i = prvni radek
 	// i - lines = prvni radek
 	// interval <i-lines, i) = vsechny radky na vypis
-	for (int k = i - lines; k < i; k++)
+	for (long k = i - lines; k < i; k++)
 	{
 		// Pokud bylo zadano mene radku, nez je v souboru, dostali bychom se do zaporu
 		if (k < 0)
