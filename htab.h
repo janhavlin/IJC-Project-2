@@ -1,3 +1,9 @@
+// htab.h
+// Reseni IJC-DU2, priklad B), 24.4.2018
+// Autor: Jan Havlin, 1BIT, xhavli47@stud.fit.vutbr.cz
+// Prelozeno: gcc 6.4.0
+// Popis: Definice funkci knihovny pro operace s tabulkou
+
 #ifndef HTAB_H_
 #define HTAB_H_
 
@@ -15,37 +21,88 @@ typedef struct {
 } htab_t;
 
 struct htab_listitem {
-	char key[128];
+	char *key;
 	unsigned data;
 	struct htab_listitem *next;
 };
 
+/**
+ * @brief Hashovaci funkce
+ * @param str Vstupni retezec
+ * @return Celociselny hash
+ */
 unsigned int htab_hash_function(const char *str);
 
-htab_t * htab_init(size_t size);	// konstruktor: vytvoření a inicializace tabulky
+/**
+ * @brief Konstruktor: vytvori a inicializuje tabulku
+ * @param size Velikost pole ukazatelu na seznamy
+ * @return Ukazatel na tabulku
+ */
+htab_t * htab_init(size_t size);
 
-htab_t * htab_move(size_t newsize,htab_t *t2); // move konstruktor: vytvoření a inicializace tabulky daty z tabulky t2, t2 nakonec zůstane prázdná a alokovaná (tuto funkci cvičně použijte v programu)
+/**
+ * @brief Vytvori a inicializuje tabulku s daty z tabulky t2, t2 bude prazdna a alokovana
+ * @param size Velikost pole ukazatelu na seznamy
+ * @param t2 Puvodni tabulka
+ * @return Ukazatel na novou tabulku
+ */
+htab_t * htab_move(size_t newsize,htab_t *t2);
 
-size_t htab_size(htab_t *t);		// vrátí počet prvků tabulky (.size)
+/**
+ * @brief Vrati pocet prvku tabulky
+ * @param t Ukazatel na tabulku
+ * @return Pocet prvku (zaznamu) v tabulce
+ */
+size_t htab_size(htab_t *t);
 
-size_t htab_bucket_count(htab_t *t);   // vrátí počet prvků pole (.arr_size)
+/**
+ * @brief Vrati pocet prvku pole ukazatelu na seznamy
+ * @param t Ukazatel na tabulku
+ * @return Pocet ukazatelu v poli
+ */
+size_t htab_bucket_count(htab_t *t);
 
-struct htab_listitem * htab_lookup_add(htab_t *t,const char *key);    // vyhledávání - viz dále
+/**
+ * @brief Vyhleda v tabulce zaznam dle zadaneho klice, pokud neexistuje, prida zaznam
+ * @param t Ukazatel na tabulku
+ * @param key Retezec, podle ktereho bude vyhledavat
+ * @return Ukazatel na zaznam
+ */
+struct htab_listitem * htab_lookup_add(htab_t *t,const char *key);
 
-struct htab_listitem * htab_find(htab_t *t, const char *key);          // vyhledávání - viz dále
+/**
+ * @brief Vyhleda v tabulce zaznam dle zadaneho klice, pokud neexistuje, vraci NULL
+ * @param t Ukazatel na tabulku
+ * @param key Retezec, podle ktereho bude vyhledavat
+ * @return Ukazatel na zaznam
+ */
+struct htab_listitem * htab_find(htab_t *t, const char *key);
 
-void htab_foreach(htab_t *t, void (* func)(const char *, struct htab_listitem *));      // volání funkce func pro každý prvek
+/**
+ * @brief Vola funkci func pro kazdy zaznam v tabulce
+ * @param t Ukazatel na tabulku
+ * @param func Ukazatel na funkci s parametry (const char *, struct htab_listitem *)
+ */
+void htab_foreach(htab_t *t, void (* func)(const char *, struct htab_listitem *));
 
-bool htab_remove(htab_t *t, char *key);      // vyhledání a zrušení zadané položky vrací b==false pokud neexistuje
+/**
+ * @brief Vyhleda a zrusi zadany zaznam
+ * @param t Ukazatel na tabulku
+ * @param key Retezec, podle ktereho se bude vyhledavat
+ * @return True pokud byl smazan, false pokud neexistuje
+ */
+bool htab_remove(htab_t *t, char *key);
 
-void htab_clear(htab_t *t);             // zrušení všech položek, tabulka zůstane prázdná
+/**
+ * @brief Zrusi vsechny zaznamy, tabulka zustava prazdna
+ * @param t Ukazatel na tabulku
+ */
+void htab_clear(htab_t *t);
 
-void htab_free(htab_t *t);              // destruktor: zrušení tabulky (volá htab_clear())
-
-// kde t,t2    je ukazatel na tabulku (typu htab_t *),
-// b       je typu bool,
-// ptr     je ukazatel na záznam (položku tabulky),
-// func    je funkce s parametry: func(constkey,valueptr)
-		  
+/**
+ * @brief Zrusi vsechny zaznamy vcetne tabulky
+ * @param t Ukazatel na tabulku
+ */
+void htab_free(htab_t *t);
 
 #endif

@@ -1,10 +1,14 @@
+// tail.c
+// Reseni IJC-DU2, priklad A), 24.4.2018
+// Autor: Jan Havlin, 1BIT, xhavli47@stud.fit.vutbr.cz
+// Prelozeno: gcc 6.4.0
+// Popis: C implementace POSIX prikazu tail
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-// #include "htab.h"
 
 #define MAX_LINE_LEN 1024
-// #define INT_LIMIT 65524
 
 int get_char(FILE *f)
 {
@@ -89,7 +93,7 @@ int main(int argc, char *argv[])
 		if (j == MAX_LINE_LEN - 2)
 		{
 			if (warnings--)
-				fprintf(stderr, "Varovani: zkracen prilis dlouhy radek\n");
+				fprintf(stderr, "Varovani: Zkracen prilis dlouhy radek\n");
 			while((c = fgetc(f)) != EOF && c != '\n');
 			buffer[i%lines][j++] = '\n';
 		}
