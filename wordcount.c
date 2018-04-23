@@ -11,43 +11,25 @@
 #include "htab.h"
 #include "io.h"
 
-void print(const char *key, struct htab_listitem *item)
+void print(const char *key, unsigned data)
 {
-	printf("%s\t%d\n", key, item->data);
+	printf("%s\t%d\n", key, data);
 }
 
-void printTable(htab_t *table)
-{
-	puts("********* Vypis tabulky *********:");
-	struct htab_listitem *list = NULL;
-	for(unsigned int i = 0; i < table->arr_size; i++){
-		list = table->ptr[i];
-
-		printf("[%d]", i);
-		while(list != NULL){
-			printf("-[%s]", list->key);
-			list = list->next;
-		}
-		
-		printf("-|\n\n");		
-	}
-}
 int main(int argc, char *argv[])
 {
-	htab_t *table = htab_init(512);
-	
-	if (argc < 2)
-	{
-		fprintf(stderr, "Chyba: Nebyl zadan vstupni soubor\n");
-		return 1;
-	}
-	
-	FILE *f = fopen(argv[1], "r");	
+	// Idealni velikost hashovaci tabulky je takova, aby mel 1 bucket max. 1 zaznam, tudiz aby vyhledavani bylo O(1)
+	// Velikost tabulky tedy zavisi na velikosti nacitaneho souboru, pokud nevime, jak velky je soubor je lepsi plytvat pameti nez vypocetnim casem procesoru
+	// Pokud je velikost tabulky prvocislo, pro nektere hashovaci funkce se snizi sance na shlukovani
+	htab_t *table = htab_init(14741);
+		
+	FILE *f = NULL;
+	if (argc >= 2)
+		f = fopen(argv[1], "r");
+		
 	if (f == NULL)
-	{
-		fprintf(stderr, "Chyba pri otevirani souboru\n");
-		return 1;
-	}
+		f = stdin;
+
 	char word[KEY_MAX_LEN];
 	
 	short warnings = 1;
@@ -55,21 +37,24 @@ int main(int argc, char *argv[])
 	while((word_len = get_word(word, KEY_MAX_LEN, f)) != EOF)
 	{
 		if (word_len > KEY_MAX_LEN && warnings--)
-		{
 			fprintf(stderr, "Varovani: Zkraceno prilis dlouhe slovo\n"); 
-		}
+
 		if (htab_lookup_add(table, word) == NULL)
 		{
+			htab_free(table);
 			return 1;
 		}
 	}
 	
 	// Pouziti funkce htab_move a nasledne vypsani nove tabulky pomoci htab_foreach
-	htab_t *table2 = htab_move(256, table);
+	htab_t *table2 = htab_move(5741, table);
 	if (table2 == NULL)
 	{
+		htab_free(table);
+		htab_free(table2);
 		return 1;
 	}
+	
 	htab_foreach(table2, &print);
 	
 	htab_free(table);

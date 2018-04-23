@@ -81,9 +81,9 @@ struct htab_listitem * htab_find(htab_t *t, const char *key);
 /**
  * @brief Vola funkci func pro kazdy zaznam v tabulce
  * @param t Ukazatel na tabulku
- * @param func Ukazatel na funkci s parametry (const char *, struct htab_listitem *)
+ * @param func Ukazatel na funkci s parametry (const char *, unsigned)
  */
-void htab_foreach(htab_t *t, void (* func)(const char *, struct htab_listitem *));
+void htab_foreach(htab_t *t, void (* func)(const char *, unsigned));
 
 /**
  * @brief Vyhleda a zrusi zadany zaznam

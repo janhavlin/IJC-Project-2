@@ -3,23 +3,13 @@
 // Autor: Jan Havlin, 1BIT, xhavli47@stud.fit.vutbr.cz
 // Prelozeno: gcc 6.4.0
 // Popis: C implementace POSIX prikazu tail
+//			pro nacitani radku pouzito staticky alokovane 2D pole (kralikarna)
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #define MAX_LINE_LEN 1024
-
-int get_char(FILE *f)
-{
-	// Cteni ze stdin
-	if (f == NULL)
-		return getchar();
-
-	// Cteni ze souboru
-	else
-		return fgetc(f);
-}
 
 int main(int argc, char *argv[])
 {
@@ -30,7 +20,7 @@ int main(int argc, char *argv[])
 	if (argc == 2 || argc == 4)
 	{
 		if ((argc == 4 && !strcmp(argv[1], "-n")))
-			lines = atoi(argv[2]);
+			lines = strtol(argv[2], NULL, 0);
 		else if (argc != 2)
 		{
 			fprintf(stderr, "Chyba: Pouziti: tail -n CISLO SOUBOR\n");
@@ -49,13 +39,7 @@ int main(int argc, char *argv[])
 	else if (argc == 3 && !strcmp(argv[1], "-n"))
 	{
 		lines = strtol(argv[2], NULL, 0);
-		// if (lines > INT_LIMIT)
-		// {
-			// lines = INT_LIMIT;
-			// printf("BLABLA");
-		// }
 	}
-	
 	
 	// tail <soubor
 	else if (argc != 1)
@@ -64,12 +48,17 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 	
-	// printf("Lines: %ld\n", lines);
-	if (lines < 0)
+	if (lines == 0)
+		return 0;
+		
+	else if (lines < 0)
 	{
-		fprintf(stderr, "Chyba: Zadany pocet radku nesmi byt zaporny\n");
+		fprintf(stderr, "Chyba: Zadan chybny pocet radku\n");
 		return 1;
 	}
+	
+	if (f == NULL)
+		f = stdin;
 	
 	char buffer[lines][MAX_LINE_LEN];
 	
@@ -79,7 +68,7 @@ int main(int argc, char *argv[])
 	while(42)
 	{
 		int j = 0;
-		while ((c = get_char(f)) != EOF && j < MAX_LINE_LEN - 2)
+		while ((c = fgetc(f)) != EOF && j < MAX_LINE_LEN - 2)
 		{
 			// Pomoci modula prepisujeme radek
 			buffer[i%lines][j++] = c;

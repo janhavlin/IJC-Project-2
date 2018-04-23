@@ -37,7 +37,7 @@ void htab_clear(htab_t *t)
 					break;
 				}
 				
-				// presun na nasledujici prvek zaznam
+				// presun na nasledujici prvek
 				else
 				{
 					tmp = tmp->next;

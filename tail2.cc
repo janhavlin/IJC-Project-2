@@ -68,11 +68,13 @@ int main(int argc, char **argv)
 
 	do
 	{
+		// Cteni ze souboru
 		if (file.is_open())
 		{
-		std::cout << i++ << '\n';
 			std::getline(file, line);
 		}
+		
+		// Nebo ze stdin
 		else
 		{
 			std::getline(std::cin, line);

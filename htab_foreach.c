@@ -6,7 +6,7 @@
 
 #include "htab.h"
 
-void htab_foreach(htab_t *t, void (* func)(const char *, struct htab_listitem *))
+void htab_foreach(htab_t *t, void (* func)(const char *, unsigned))
 {
 	for (unsigned i = 0; i < t->arr_size; i++)
 	{
@@ -14,7 +14,7 @@ void htab_foreach(htab_t *t, void (* func)(const char *, struct htab_listitem *)
 		while(tmp != NULL)
 		{
 			// volat fci nad tmp
-			(* func)(tmp->key, tmp);
+			(* func)(tmp->key, tmp->data);
 			tmp = tmp->next;
 		}
 	}

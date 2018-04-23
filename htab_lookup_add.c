@@ -30,6 +30,7 @@ struct htab_listitem *htab_lookup_add(htab_t *t, const char *key)
 
 	// Pridavani noveho prvku
 	struct htab_listitem *new = (struct htab_listitem *) malloc(sizeof(struct htab_listitem));
+	
 	if (new == NULL)
 	{
 		fprintf(stderr, "Chyba pri alokaci zaznamu\n");
@@ -41,7 +42,7 @@ struct htab_listitem *htab_lookup_add(htab_t *t, const char *key)
 	
 	if (new->key == NULL)
 	{
-		fprintf(stderr, "Chyba pri alokaci klice\n");
+		free(new);
 		return NULL;
 	}
 	

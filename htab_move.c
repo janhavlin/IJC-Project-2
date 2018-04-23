@@ -16,9 +16,8 @@ htab_t * htab_move(size_t newsize, htab_t *t2)
 		while(tmp != NULL)
 		{
 			if (htab_lookup_add(t, tmp->key) == NULL)
-			{
 				return NULL;
-			}
+
 			htab_find(t, tmp->key)->data = htab_find(t2, tmp->key)->data;
 			tmp = tmp->next;
 		}

@@ -1,5 +1,5 @@
 # Makefile
-# Reseni IJC-DU2, priklad B), 24.4.2018
+# Reseni IJC-DU2, priklad A), B), 24.4.2018
 # Autor: Jan Havlin, 1BIT, xhavli47@stud.fit.vutbr.cz
 # Prelozeno: gcc 6.4.0
 # Popis:	make: vytvori programy tail, tail2, wordcount-dynamic
@@ -7,6 +7,7 @@
 #			make tail2: vytvori C++ program tail2
 #			make wordcount: vytvori program wordcount se statickou knihovnou
 #			make wordcount-dynamic: vytvori program wordcount-dynamic se sdilenou knihovnou
+#									spusteni: LD_LIBRARY_PATH="." ./wordcount-dynamic file
 
 CC = gcc
 CFLAGS = -std=c99 -Wall -Wextra -pedantic -g
@@ -14,35 +15,32 @@ OBJLIB = htab_hash_function.o htab_init.o htab_move.o htab_size.o htab_bucket_co
 
 all: tail tail2 wordcount wordcount-dynamic
 
-zip:
-	zip xhavli47.zip *.c *.cc *.h Makefile
-
 # Sestaveni vyslednych programu
 tail: tail.c
 	$(CC) $(CFLAGS) tail.c -o tail
 
 tail2: tail2.cc
-	g++ -std=c++11 tail2.cc
+	g++ -std=c++11 tail2.cc -o tail2
 
 wordcount: wordcount.o io.o libhtab.a
 	$(CC) $(CFLAGS) -o wordcount wordcount.o io.o -L . libhtab.a
 	
-wordcount-dynamic: wordcount.o libhtab.so
+wordcount-dynamic: wordcount.o io.o libhtab.so
 	$(CC) $(CFLAGS) -o wordcount-dynamic wordcount.o io.o libhtab.so
 	
 # Staticka a dynamicka knihovna
 libhtab.a: $(OBJLIB)
 	ar -rcs libhtab.a $(OBJLIB)
 	
-libhtab.so:	
+libhtab.so:	$(OBJLIB)
 	$(CC) $(CFLAGS) -shared -fPIC -o libhtab.so $(OBJLIB)
 
 # Objektove soubory
 io.o: io.c
-	$(CC) $(CFLAGS) -fPIC -c io.c
+	$(CC) $(CFLAGS) -c io.c
 	
 wordcount.o: wordcount.c
-	$(CC) $(CFLAGS) -fPIC -c wordcount.c
+	$(CC) $(CFLAGS) -c wordcount.c
 
 htab_hash_function.o: htab_hash_function.c
 	$(CC) $(CFLAGS) -fPIC -c htab_hash_function.c
@@ -79,3 +77,6 @@ htab_free.o: htab_free.c htab_clear.o
 	
 clean:
 	rm *.o tail tail2 wordcount wordcount-dynamic libhtab.a libhtab.so
+
+zip:
+	zip xhavli47.zip *.c *.cc *.h Makefile
