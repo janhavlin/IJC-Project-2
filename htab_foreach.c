@@ -13,7 +13,7 @@ void htab_foreach(htab_t *t, void (* func)(const char *, unsigned))
 		struct htab_listitem *tmp = t->ptr[i];
 		while(tmp != NULL)
 		{
-			// volat fci nad tmp
+			// Volani funkce s parametrem key a data
 			(* func)(tmp->key, tmp->data);
 			tmp = tmp->next;
 		}

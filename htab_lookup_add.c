@@ -53,6 +53,7 @@ struct htab_listitem *htab_lookup_add(htab_t *t, const char *key)
 	// Zaznam se prida na zacatek, pokud je pole prazdne
 	if (t->ptr[hash] == NULL)
 		t->ptr[hash] = new;
+	
 	// Pokud neni pole prazdne, tmp ukazuje na posledni zaznam, ulozime ho za tmp
 	else if (tmp->next == NULL)
 		tmp->next = new;

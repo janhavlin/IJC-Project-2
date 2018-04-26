@@ -9,6 +9,7 @@
 #			make wordcount-dynamic: vytvori program wordcount-dynamic se sdilenou knihovnou
 #									spusteni: LD_LIBRARY_PATH="." ./wordcount-dynamic file
 
+
 CC = gcc
 CFLAGS = -std=c99 -Wall -Wextra -pedantic -g
 OBJLIB = htab_hash_function.o htab_init.o htab_move.o htab_size.o htab_bucket_count.o htab_lookup_add.o htab_find.o htab_foreach.o htab_remove.o htab_clear.o htab_free.o

@@ -22,6 +22,7 @@ htab_t * htab_move(size_t newsize, htab_t *t2)
 			tmp = tmp->next;
 		}
 	}
+	
 	htab_clear(t2);
 	return t;
 }

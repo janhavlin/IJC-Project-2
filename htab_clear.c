@@ -15,7 +15,7 @@ void htab_clear(htab_t *t)
 		struct htab_listitem *tmp = t->ptr[i];
 			while(42)
 			{
-				// jediny zaznam
+				// Jediny zaznam
 				if (tmp->next == NULL)
 				{
 					t->size--;
@@ -26,7 +26,7 @@ void htab_clear(htab_t *t)
 					break;
 				}
 				
-				// nasledujici zaznam je posledni
+				// Nasledujici zaznam je posledni
 				else if (tmp->next->next == NULL)
 				{
 					t->size--;
@@ -37,7 +37,7 @@ void htab_clear(htab_t *t)
 					break;
 				}
 				
-				// presun na nasledujici prvek
+				// Presun na nasledujici prvek
 				else
 				{
 					tmp = tmp->next;

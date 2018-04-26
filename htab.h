@@ -105,4 +105,4 @@ void htab_clear(htab_t *t);
  */
 void htab_free(htab_t *t);
 
-#endif
+#endif //HTAB_H_

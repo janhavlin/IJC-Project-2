@@ -63,6 +63,7 @@ int main(int argc, char **argv)
 	}
 	
 	int i = 0;
+	
 	std::queue<std::string> buffer;
 	std::string line;
 

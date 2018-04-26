@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
 		{
 			// Pomoci modula prepisujeme radek
 			buffer[i%lines][j++] = c;
-			// printf("%d ",j);
+
 			// Znak konce radku zapiseme a vyskocime z cyklu
 			if(c == '\n')
 				break;

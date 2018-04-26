@@ -34,8 +34,10 @@ int main(int argc, char *argv[])
 	
 	short warnings = 1;
 	int word_len;
+	
 	while((word_len = get_word(word, KEY_MAX_LEN, f)) != EOF)
 	{
+		// get_word vraci skutecnou delku slova (ne oriznutou), pokud je tedy vetsi nez maximum, vypiseme varovani
 		if (word_len > KEY_MAX_LEN && warnings--)
 			fprintf(stderr, "Varovani: Zkraceno prilis dlouhe slovo\n"); 
 
